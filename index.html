@@ -1,0 +1,82 @@
+<html>
+<head>
+	<title>outter</title>
+</head>
+<body>
+<table width="100%">
+	<tr>
+		<td width="50%" height="100%">
+			<textarea id="input"></textarea>
+		</td>
+		<td width="50%">
+			<textarea id="output"></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td height="0" colspan="2"><input id="cmd" value="php /Users/jdonat/Projects/donatj/misstep/parse.php" /></td>
+	</tr>
+</table>
+<script type="text/javascript">
+	var gui = require('nw.gui');
+	win = gui.Window.get();
+	var nativeMenuBar = new gui.Menu({type: "menubar"});
+
+	try {
+		nativeMenuBar.createMacBuiltin("My App");
+		win.menu = nativeMenuBar;
+	} catch(ex) {
+		console.log(ex.message);
+	}
+
+	var input = document.getElementById('input');
+	var output = document.getElementById('output');
+	var cmd = document.getElementById('cmd');
+
+	var timeout;
+	input.addEventListener('keyup', function() {
+		var that = this;
+		var cmdData = cmd.value.split(' ');
+
+		console.log(cmdData);
+		clearTimeout(timeout);
+
+		function draw() {
+			var spawnSync = require('child_process').spawnSync;
+			var result = spawnSync(cmdData.shift(), cmdData, {input: that.value});
+			console.log(result);
+			console.log(that.value);
+			output.value = result.stdout;
+		}
+
+		timeout = setTimeout(draw, 300);
+	})
+</script>
+
+<style>
+	html, body {
+		padding: 0;
+		margin: 0;
+		height: 100%;
+		background: #ececec;
+	}
+
+	table {
+		height: 100%;
+	}
+
+	#cmd {
+		width: 100%;
+	}
+
+	#input, #output {
+		width: 100%;
+		height: 100%;
+	}
+
+	textarea, input {
+		font-size: 14px;
+		font-family: Source Code Pro;
+	}
+</style>
+</body>
+</html>
