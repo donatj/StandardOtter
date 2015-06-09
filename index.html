@@ -1,25 +1,43 @@
 <html>
 <head>
-	<title>outter</title>
+	<title>Standard Otter</title>
 </head>
 <body>
-<table width="100%">
+<table width="100%" cellpadding="0" cellspacing="0">
 	<tr>
 		<td width="50%" height="100%">
 			<textarea id="input"></textarea>
 		</td>
 		<td width="50%">
-			<textarea id="output"></textarea>
+			<textarea id="output" readonly></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td height="0" colspan="2"><input id="cmd" value="php /Users/jdonat/Projects/donatj/misstep/parse.php" /></td>
+		<td height="0" colspan="2">
+			<input id="cmd" />
+		</td>
 	</tr>
 </table>
 <script type="text/javascript">
+	"use strict";
+	var app = {
+		'title': 'Standard Otter'
+	};
 	var gui = require('nw.gui');
-	win = gui.Window.get();
+	window.win = gui.Window.get();
 	var nativeMenuBar = new gui.Menu({type: "menubar"});
+
+	var insertAtCursor = function( myField, myValue ) {
+		if( myField.selectionStart || myField.selectionStart == '0' ) {
+			var startPos = myField.selectionStart;
+			var endPos = myField.selectionEnd;
+			myField.value = myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
+			myField.selectionEnd = myField.selectionStart = startPos + myValue.length;
+		} else {
+			console.log('wtf');
+			myField.value += myValue;
+		}
+	};
 
 	try {
 		nativeMenuBar.createMacBuiltin("My App");
@@ -32,27 +50,50 @@
 	var output = document.getElementById('output');
 	var cmd = document.getElementById('cmd');
 
+	cmd.value = localStorage.cmd || 'cat';
+
+	input.addEventListener('keydown', function( e ) {
+		if( e.keyCode == 9 ) {
+
+			e.preventDefault();
+			insertAtCursor(input, "\t");
+		}
+	});
+
 	var timeout;
 	input.addEventListener('keyup', function() {
 		var that = this;
-		var cmdData = cmd.value.split(' ');
+		var cmdData = cmd.value.split(' ').filter(function( x ) { return x != '' });
+		
 
-		console.log(cmdData);
 		clearTimeout(timeout);
 
 		function draw() {
 			var spawnSync = require('child_process').spawnSync;
 			var result = spawnSync(cmdData.shift(), cmdData, {input: that.value});
-			console.log(result);
-			console.log(that.value);
+
 			output.value = result.stdout;
+
+			console.log(result);
+
+			if( result.status == 0 ) {
+				output.style.background = '';
+				document.title = app.title;
+			} else {
+				output.style.background = '#ffeeee';
+				document.title = app.title + ' - Exit Code: ' + result.status;
+			}
 		}
 
 		timeout = setTimeout(draw, 300);
-	})
+	});
+
+	cmd.addEventListener('change', function() {
+		localStorage.cmd = cmd.value;
+	});
 </script>
 
-<style>
+<style scoped>
 	html, body {
 		padding: 0;
 		margin: 0;
@@ -75,7 +116,10 @@
 
 	textarea, input {
 		font-size: 14px;
-		font-family: Source Code Pro;
+		font-family: Monaco, monospace;
+
+		resize: none;
+		outline: none;
 	}
 </style>
 </body>
