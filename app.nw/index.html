@@ -1,22 +1,26 @@
 <html>
 <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>Standard Otter</title>
 </head>
 <body>
 <table width="100%" cellpadding="0" cellspacing="0">
 	<tr>
-		<td width="50%" height="100%">
-			<textarea id="input"></textarea>
-		</td>
+		<td width="50%" height="100%"><textarea id="input"></textarea></td>
 		<td>&nbsp;</td>
 		<td width="50%">
-			<textarea id="output" readonly></textarea>
+			<table width="100%">
+				<tr>
+					<td><textarea id="output" readonly></textarea></td>
+				</tr>
+				<tr id="error-container">
+					<td><textarea id="error" readonly></textarea></td>
+				</tr>
+			</table>
 		</td>
 	</tr>
 	<tr>
-		<td height="0" colspan="3">
-			<input id="cmd" />
-		</td>
+		<td height="0" colspan="3" style="padding-bottom: 3px"><input id="cmd" /></td>
 	</tr>
 </table>
 <script type="text/javascript">
@@ -47,15 +51,18 @@
 		console.log(ex.message);
 	}
 
-	var input = document.getElementById('input');
-	var output = document.getElementById('output');
-	var cmd = document.getElementById('cmd');
+	var input = document.getElementById('input'),
+		output = document.getElementById('output'),
+		cmd = document.getElementById('cmd'),
+		error = document.getElementById('error'),
+		errorContainer = document.getElementById('error-container');
 
 	cmd.value = localStorage.cmd || 'cat';
+	input.value = localStorage.input || '';
+	errorContainer.style.display = 'none';
 
 	input.addEventListener('keydown', function( e ) {
 		if( e.keyCode == 9 ) {
-
 			e.preventDefault();
 			insertAtCursor(input, "\t");
 		}
@@ -66,6 +73,7 @@
 		var that = this;
 		var cmdData = cmd.value.split(' ').filter(function( x ) { return x != '' });
 
+		localStorage.input = that.value;
 
 		clearTimeout(timeout);
 
@@ -74,14 +82,23 @@
 			var result = spawnSync(cmdData.shift(), cmdData, {input: that.value});
 
 			output.value = result.stdout;
+			error.value = result.stderr;
 
 			console.log(result);
 
+			if(error.value == '') {
+				errorContainer.style.display = 'none';
+			}else{
+				errorContainer.style.display = '';
+			}
+
 			if( result.status == 0 ) {
 				output.style.background = '';
+				error.style.background = '';
 				document.title = app.title;
 			} else {
-				output.style.background = '#ffeeee';
+				output.style.background = '#fee';
+				error.style.background = '#fee';
 				document.title = app.title + ' - Exit Code: ' + result.status;
 			}
 		}
@@ -95,6 +112,12 @@
 </script>
 
 <style scoped>
+	* {
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+	}
+
 	html, body {
 		padding: 0;
 		margin: 0;
@@ -103,29 +126,52 @@
 	}
 
 	table {
+		border: none;
+		border-spacing: 0;
+		border-collapse: separate;
 		height: 100%;
 		/*margin-top: -2px; //look into this*/
 		padding: 0;
 		margin: 0;
 	}
 
-	#cmd {
-		width: 100%;
-	}
-
-	#input, #output {
-		width: 100%;
-		height: 100%;
+	tr, td {
+		margin: 0;
+		padding: 0;
 	}
 
 	textarea, input {
-		font-size: 14px;
+		font-size: 13px;
 		font-family: Monaco, monospace;
 
 		resize: none;
 		outline: none;
 		tab-size: 4;
+
+		margin: 0;
+		border: 1px solid #b7b7b7;
 	}
+
+	#cmd {
+		width: 100%;
+		border-left: none;
+		border-right: none;
+	}
+
+	#input, #output, #error {
+		width: 100%;
+		height: 100%;
+	}
+
+	#input {
+		border-left: none;
+	}
+
+	#output, #error {
+		border-right: none;
+	}
+
+
 
 	input {
 		font-size: 12px;
