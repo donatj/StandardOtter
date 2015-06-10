@@ -8,12 +8,13 @@
 		<td width="50%" height="100%">
 			<textarea id="input"></textarea>
 		</td>
+		<td>&nbsp;</td>
 		<td width="50%">
 			<textarea id="output" readonly></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td height="0" colspan="2">
+		<td height="0" colspan="3">
 			<input id="cmd" />
 		</td>
 	</tr>
@@ -64,7 +65,7 @@
 	input.addEventListener('keyup', function() {
 		var that = this;
 		var cmdData = cmd.value.split(' ').filter(function( x ) { return x != '' });
-		
+
 
 		clearTimeout(timeout);
 
@@ -103,6 +104,9 @@
 
 	table {
 		height: 100%;
+		/*margin-top: -2px; //look into this*/
+		padding: 0;
+		margin: 0;
 	}
 
 	#cmd {
@@ -120,6 +124,11 @@
 
 		resize: none;
 		outline: none;
+		tab-size: 4;
+	}
+
+	input {
+		font-size: 12px;
 	}
 </style>
 </body>
