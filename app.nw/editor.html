@@ -103,7 +103,9 @@
 				'cmd'   : cmd.value,
 				'input' : input.value,
 				'width' : win.width,
-				'height': win.height
+				'height': win.height,
+				'x'     : win.x,
+				'y'     : win.y
 			};
 		};
 
@@ -113,6 +115,10 @@
 
 			if( status.width && status.height ) {
 				win.resizeTo(status.width, status.height);
+			}
+
+			if( status.x && status.y ) {
+				win.moveTo(status.x, status.y);
 			}
 		}
 
