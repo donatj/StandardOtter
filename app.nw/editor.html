@@ -100,10 +100,10 @@
 
 		window.getEditorStatus = function() {
 			return {
-				'cmd'  : cmd.value,
-				'input': input.value,
+				'cmd'   : cmd.value,
+				'input' : input.value,
 				'width' : win.width,
-				'height' : win.height
+				'height': win.height
 			};
 		};
 
@@ -111,7 +111,7 @@
 			cmd.value = status.cmd || '';
 			input.value = status.input || '';
 
-			if(status.width && status.height) {
+			if( status.width && status.height ) {
 				win.resizeTo(status.width, status.height);
 			}
 		}
