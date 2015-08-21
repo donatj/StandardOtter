@@ -1,181 +1,81 @@
+<!DOCTYPE html>
 <html>
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Standard Otter</title>
-</head>
-<body>
-<table width="100%" cellpadding="0" cellspacing="0">
-	<tr>
-		<td width="50%" height="100%"><textarea id="input"></textarea></td>
-		<td>&nbsp;</td>
-		<td width="50%">
-			<table width="100%">
-				<tr>
-					<td><textarea id="output" readonly></textarea></td>
-				</tr>
-				<tr id="error-container">
-					<td><textarea id="error" readonly></textarea></td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-	<tr>
-		<td height="0" colspan="3" style="padding-bottom: 3px"><input id="cmd" /></td>
-	</tr>
-</table>
-<script type="text/javascript">
-	"use strict";
-	var app = {
-		'title': 'Standard Otter'
-	};
-	var gui = require('nw.gui');
-	window.win = gui.Window.get();
-	var nativeMenuBar = new gui.Menu({type: "menubar"});
+<script>
+	setTimeout((function() {
+		"use strict";
 
-	var insertAtCursor = function( myField, myValue ) {
-		if( myField.selectionStart || myField.selectionStart == '0' ) {
-			var startPos = myField.selectionStart;
-			var endPos = myField.selectionEnd;
-			myField.value = myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
-			myField.selectionEnd = myField.selectionStart = startPos + myValue.length;
+		var gui = require('nw.gui'),
+			win = gui.Window.get();
+
+		var nativeMenuBar = new gui.Menu({type: "menubar"});
+
+		try {
+			nativeMenuBar.createMacBuiltin("Standard Otter");
+			win.menu = nativeMenuBar;
+		} catch(ex) {
+			console.log(ex.message);
+		}
+
+		win.hide();
+
+		var childWindows = [];
+		var initEditorWindow      = function( status ) {
+			var new_win = gui.Window.open('editor.html', {
+				"toolbar": false,
+				"width"  : 800,
+				"height" : 600
+			});
+
+			new_win.on('loaded', function() {
+				this.window.initEditor();
+				this.window.restoreEditorStatus(status);
+				this.window.addEventListener('keydown', function( e ) {
+					if( e.metaKey && e.which == 78 ) {
+						e.preventDefault();
+						newEditorWindow();
+					}
+				});
+			});
+
+			childWindows.push(new_win);
+
+			return new_win;
+		}, newEditorWindow        = function() {
+			initEditorWindow({'cmd': 'cat'});
+		}, getSavedEditorStatuses = function() {
+			if( !window.localStorage.editorStatuses ) {
+				return [];
+			}
+
+			return JSON.parse(window.localStorage.editorStatuses);
+		};
+
+		var statuses = getSavedEditorStatuses();
+		if( statuses.length > 0 ) {
+			for( var i = 0; i <= statuses.length - 1; i++ ) {
+				initEditorWindow(statuses[i]);
+			}
 		} else {
-			console.log('wtf');
-			myField.value += myValue;
+			newEditorWindow();
 		}
-	};
 
-	try {
-		nativeMenuBar.createMacBuiltin("My App");
-		win.menu = nativeMenuBar;
-	} catch(ex) {
-		console.log(ex.message);
-	}
-
-	var input = document.getElementById('input'),
-		output = document.getElementById('output'),
-		cmd = document.getElementById('cmd'),
-		error = document.getElementById('error'),
-		errorContainer = document.getElementById('error-container');
-
-	cmd.value = localStorage.cmd || 'cat';
-	input.value = localStorage.input || '';
-	errorContainer.style.display = 'none';
-
-	input.addEventListener('keydown', function( e ) {
-		if( e.keyCode == 9 ) {
-			e.preventDefault();
-			insertAtCursor(input, "\t");
-		}
-	});
-
-	var timeout;
-	input.addEventListener('keyup', function() {
-		var that = this;
-		var cmdData = cmd.value.split(' ').filter(function( x ) { return x != '' });
-
-		localStorage.input = that.value;
-
-		clearTimeout(timeout);
-
-		function draw() {
-			var spawnSync = require('child_process').spawnSync;
-			var result = spawnSync(cmdData.shift(), cmdData, {input: that.value});
-
-			output.value = result.stdout;
-			error.value = result.stderr;
-
-			console.log(result);
-
-			if(error.value == '') {
-				errorContainer.style.display = 'none';
-			}else{
-				errorContainer.style.display = '';
+		win.on('close', function() {
+			var statuses = [];
+			for( var i = 0; i <= childWindows.length - 1; i++ ) {
+				try {
+					statuses.push(childWindows[i].window.getEditorStatus());
+				} catch(e) {
+					// window was closed
+				}
 			}
 
-			if( result.status == 0 ) {
-				output.style.background = '';
-				error.style.background = '';
-				document.title = app.title;
-			} else {
-				output.style.background = '#fee';
-				error.style.background = '#fee';
-				document.title = app.title + ' - Exit Code: ' + result.status;
-			}
-		}
+			window.localStorage.editorStatuses = JSON.stringify(statuses);
 
-		timeout = setTimeout(draw, 300);
-	});
+			this.close(true);
+		});
 
-	cmd.addEventListener('change', function() {
-		localStorage.cmd = cmd.value;
-	});
+//		win.showDevTools();
+
+	}), 100);
 </script>
-
-<style scoped>
-	* {
-		-webkit-box-sizing: border-box;
-		-moz-box-sizing: border-box;
-		box-sizing: border-box;
-	}
-
-	html, body {
-		padding: 0;
-		margin: 0;
-		height: 100%;
-		background: #ececec;
-	}
-
-	table {
-		border: none;
-		border-spacing: 0;
-		border-collapse: separate;
-		height: 100%;
-		/*margin-top: -2px; //look into this*/
-		padding: 0;
-		margin: 0;
-	}
-
-	tr, td {
-		margin: 0;
-		padding: 0;
-	}
-
-	textarea, input {
-		font-size: 13px;
-		font-family: Monaco, monospace;
-
-		resize: none;
-		outline: none;
-		tab-size: 4;
-
-		margin: 0;
-		border: 1px solid #b7b7b7;
-	}
-
-	#cmd {
-		width: 100%;
-		border-left: none;
-		border-right: none;
-	}
-
-	#input, #output, #error {
-		width: 100%;
-		height: 100%;
-	}
-
-	#input {
-		border-left: none;
-	}
-
-	#output, #error {
-		border-right: none;
-	}
-
-
-
-	input {
-		font-size: 12px;
-	}
-</style>
-</body>
 </html>
