@@ -91,6 +91,12 @@
 						output.style.background = '#fee';
 						error.style.background = '#fee';
 						document.title = app.title + ' - Exit Code: ' + result.status;
+
+						if( result.status !== null ) {
+							cmd.style.background = '';
+						} else {
+							cmd.style.background = '#fee';
+						}
 					}
 				}
 
