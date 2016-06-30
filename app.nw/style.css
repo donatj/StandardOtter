@@ -1,0 +1,62 @@
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+html, body {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    background: #ececec;
+}
+
+table {
+    border: none;
+    border-spacing: 0;
+    border-collapse: separate;
+    height: 100%;
+    /*margin-top: -2px; //look into this*/
+    padding: 0;
+    margin: 0;
+}
+
+tr, td {
+    margin: 0;
+    padding: 0;
+}
+
+textarea, input {
+    font-size: 13px;
+    font-family: Monaco, monospace;
+
+    resize: none;
+    outline: none;
+    tab-size: 4;
+
+    margin: 0;
+    border: 1px solid #b7b7b7;
+}
+
+#cmd {
+    width: 100%;
+    border-left: none;
+    border-right: none;
+}
+
+#input, #output, #error {
+    width: 100%;
+    height: 100%;
+}
+
+#input {
+    border-left: none;
+}
+
+#output, #error {
+    border-right: none;
+}
+
+input {
+    font-size: 12px;
+}
