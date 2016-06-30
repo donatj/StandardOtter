@@ -20,7 +20,9 @@
 		</td>
 	</tr>
 	<tr>
-		<td height="0" colspan="3" style="padding-bottom: 3px"><input id="cmd" /></td>
+		<td height="0" colspan="3" style="padding-bottom: 3px"><input id="cmd" list="cmdlist" />
+			<datalist id="cmdlist"></datalist>
+		</td>
 	</tr>
 </table>
 <script type="text/javascript">
@@ -34,6 +36,34 @@
 			cmd            = document.getElementById('cmd'),
 			error          = document.getElementById('error'),
 			errorContainer = document.getElementById('error-container');
+
+		/**
+		 * @param {Element} datalist
+		 * @param {string[]} options
+		 */
+		var setDatalistOptions = function( datalist, options ) {
+			datalist.innerHTML = '';
+
+			options.forEach(function( e ) {
+				var option = document.createElement('option');
+				option.textContent = e;
+
+				datalist.appendChild(option);
+			});
+		};
+
+		var addCmdDatalistOption = function( workingSet, key, time ) {
+			workingSet[key] = time || Date.now();
+		};
+
+		var cmdList = {};
+
+//		setDatalistOptions(document.getElementById('cmdlist'), [
+//			"ruby",
+//			"node",
+//			"php"
+//		]);
+
 
 		window.initEditor = function() {
 			var app = {
