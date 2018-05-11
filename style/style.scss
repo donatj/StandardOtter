@@ -1,0 +1,97 @@
+@import "compass/css3";
+@import "compass/reset";
+@include reset-html5;
+
+$mainBG: #ececec;
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    background: $mainBG;
+}
+
+textarea, input {
+    font-size: 13px;
+    font-family: Monaco, monospace;
+
+    resize: none;
+    outline: none;
+    tab-size: 4;
+
+    margin: 0;
+    border: 1px solid #b7b7b7;
+}
+
+input {
+    font-size: 12px;
+}
+
+body {
+	overflow: hidden;
+
+	> .horizontal-resize--controller {
+		height: calc(100vh - 27px);
+		width: 100vw;
+	}
+	
+	> .command--controller {
+		padding-top: 3px;
+		> input {
+			border-left: 0;
+			border-right: 0;
+			width: 100%;
+		}
+	}
+}
+
+.horizontal-resize--controller {
+	// position: relative;
+	// left: 200px;
+	display: grid;
+	grid-template-columns: 50% 5px;
+
+	> .grabber {
+		cursor: col-resize;
+
+		$color: $mainBG;//darken($lightSpace, 10%);
+		background: $color;
+		cursor: col-resize;
+	
+		&:hover {
+			background: darken($color, 5%);
+		}
+	
+		&.-resizing{
+			background: darken($color, 10%);
+		}
+	}
+}
+
+.stdin--controller {
+	textarea {
+		width: 100%;
+		height: 100%;
+
+		border-left: 0;
+		border-top: 0;
+	}
+}
+
+.stdout-err--controller {
+	display: grid;
+	overflow: hidden;
+	textarea {
+		margin: 0;
+		padding: 0;
+		width: 100%;
+
+		border-right: 0;
+
+		&.-stdout { 
+			border-top: 10px;
+		}
+	}
+}
