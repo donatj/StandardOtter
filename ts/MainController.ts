@@ -16,8 +16,8 @@ export class MainController {
 		});
 	}
 
-	private doExec(){
-		let result = this.execute(this.cmd.value, this.editor.getValue());
+	private doExec() {
+		const result = this.execute(this.cmd.value, this.editor.getValue());
 
 		this.stdOut.textContent = (result.stdout || "").toString();
 		this.stdErr.textContent = (result.stderr || "").toString();
@@ -27,7 +27,7 @@ export class MainController {
 			this.stdErr.style.background = '#fee';
 
 			document.title = 'Exit Code: ' + result.status;
-		}else{
+		} else {
 			this.stdOut.style.background = '';
 			this.stdErr.style.background = '';
 
@@ -42,12 +42,12 @@ export class MainController {
 	}
 
 	private execute(cmd: string, input: string) {
-		let cmdData = cmd.split(' ').filter(function (x) { return x != '' });
+		const cmdData = cmd.split(' ').filter((x) => x != '');
 
-		let result = child_process.spawnSync(
+		const result = child_process.spawnSync(
 			cmdData.shift() || "cat",
 			cmdData,
-			{ input }
+			{ input },
 		);
 
 		return result;
