@@ -1,11 +1,18 @@
 {
     "compilerOptions": {
         "module": "commonjs",
-        "target": "es5",
-        "noImplicitAny": true,
+        "target": "ES2017",
+
         "sourceMap": true,
         "outDir": "js",
-        "strictNullChecks": true
+        "removeComments": true,
+        "strict": true,
+        "noImplicitAny": true, 
+        "strictNullChecks": true,
+        "noImplicitThis": true,
+        "alwaysStrict": true,
+        "noUnusedLocals": true,
+        "noImplicitReturns": true
     },
     "include": [
         "node_modules/@types/**/*",
