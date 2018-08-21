@@ -1,14 +1,16 @@
-import { app, BrowserWindow, Menu, MenuItemConstructorOptions, /* shell */ } from 'electron';
+import { app, BrowserWindow, Menu, MenuItemConstructorOptions /* shell */ } from 'electron';
 // import * as fs from 'fs';
 import * as path from 'path';
 import * as url from 'url';
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let win: BrowserWindow | null = null;
+// let win: BrowserWindow | null = null;
+
+const windows: BrowserWindow[] = [];
 
 function createWindow() {
 	// Create the browser window.
-	win = new BrowserWindow({
+	let win: BrowserWindow | null = new BrowserWindow({
 		height: 800,
 		width: 600,
 
@@ -42,6 +44,9 @@ function createWindow() {
 		},
 		{
 			label: "File",
+			submenu: [
+				{ label: 'New', accelerator: "CmdOrCtrl+N", click: () => { createWindow(); } },
+			],
 		},
 		{ role: "editMenu" },
 		{ role: "windowMenu" },
@@ -51,11 +56,19 @@ function createWindow() {
 
 	// Emitted when the window is closed.
 	win.on('closed', () => {
+		if (win) {
+			const index = windows.indexOf(win);
+			if (index > -1) {
+				windows.splice(index, 1);
+			}
+		}
 		// Dereference the window object, usually you would store windows
 		// in an array if your app supports multi windows, this is the time
 		// when you should delete the corresponding element.
 		win = null;
 	});
+
+	windows.push(win);
 }
 
 // This method will be called when Electron has finished
@@ -77,7 +90,7 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
 	// On macOS it's common to re-create a window in the app when the
 	// dock icon is clicked and there are no other windows open.
-	if (win === null) {
+	if (windows.length === 0) {
 		createWindow();
 	}
 });
