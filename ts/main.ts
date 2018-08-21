@@ -29,7 +29,7 @@ function createWindow() {
 			submenu: [
 				{ role: 'about' },
 				{ type: 'separator' },
-				{ label: "Toggle Developer Tools", accelerator: "CommandOrControl+Alt+I", click: () => win && win.webContents.toggleDevTools() },
+				{ role: 'toggleDevTools' },
 				{ type: 'separator' },
 				{ role: 'services', submenu: [] },
 				{ type: 'separator' },
@@ -41,24 +41,10 @@ function createWindow() {
 			],
 		},
 		{
-			label: "Edit",
-			submenu: [
-				{ label: "Undo", accelerator: "CmdOrCtrl+Z" /* selector: "undo:" */ },
-				{ label: "Redo", accelerator: "Shift+CmdOrCtrl+Z" /* selector: "redo:" */ },
-				{ type: "separator" },
-				{ label: "Cut", accelerator: "CmdOrCtrl+X" /* selector: "cut:" */ },
-				{ label: "Copy", accelerator: "CmdOrCtrl+C" /* selector: "copy:" */ },
-				{ label: "Paste", accelerator: "CmdOrCtrl+V" /* selector: "paste:" */ },
-				{ label: "Select All", accelerator: "CmdOrCtrl+A" /* selector: "selectAll:"*/ },
-			],
+			label: "File",
 		},
-		{
-			role: 'window',
-			submenu: [
-				{ role: 'minimize' },
-				{ role: 'close' },
-			],
-		},
+		{ role: "editMenu" },
+		{ role: "windowMenu" },
 	];
 
 	Menu.setApplicationMenu(Menu.buildFromTemplate(template));
