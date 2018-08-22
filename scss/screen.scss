@@ -38,7 +38,7 @@ input {
 }
 
 .container {
-	grid-template-rows: calc(50vh - 20px) calc(50vh - 20px) 40px;
+	grid-template-rows: 1fr 1fr 2em;
 	grid-template-columns: 50vw 50vw;
 
 	height: 100vh;

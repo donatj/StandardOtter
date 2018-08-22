@@ -59,11 +59,8 @@
 			// language: 'php'
 		});
 
-		let c = nodeRequire('./js/MainController.js');
-		let main = new c.MainController(editor, document.getElementById('cmd'), document.getElementById('output'), document.getElementById('error'));
-		xxx = editor;
+		nodeRequire('./js/editor.js').init(editor);
 	});
-
 </script>
 
 </html>

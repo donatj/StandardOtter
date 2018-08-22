@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, MenuItemConstructorOptions /* shell */ } from 'electron';
+import { app, BrowserWindow, Menu, MenuItemConstructorOptions } from 'electron';
 // import * as fs from 'fs';
 import * as path from 'path';
 import * as url from 'url';
@@ -11,11 +11,11 @@ const windows: BrowserWindow[] = [];
 function createWindow() {
 	// Create the browser window.
 	let win: BrowserWindow | null = new BrowserWindow({
-		height: 800,
-		width: 600,
+		height: 600,
+		width: 800,
 
 		minHeight: 500,
-		minWidth: 600,
+		minWidth: 500,
 	});
 
 	// and load the index.html of the app.
@@ -53,6 +53,11 @@ function createWindow() {
 	];
 
 	Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+
+	win.webContents.on('did-finish-load', () => {
+		if (!win) { return; }
+		win.webContents.send('message', 'Hello second window!');
+	});
 
 	// Emitted when the window is closed.
 	win.on('closed', () => {

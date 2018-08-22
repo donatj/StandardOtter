@@ -5,10 +5,9 @@ export class MainController {
 	private timeout = 0;
 
 	constructor(public editor: monaco.editor.IStandaloneCodeEditor, private cmd: HTMLInputElement, private stdOut: HTMLTextAreaElement, private stdErr: HTMLTextAreaElement) {
-
 		editor.onDidChangeModelContent((e) => {
 			clearTimeout(this.timeout);
-			this.timeout = window.setTimeout(this.doExec.bind(this), 300);
+			this.timeout = window.setTimeout(this.doExec.bind(this), 700);
 		});
 
 		window.addEventListener('resize', () => {
