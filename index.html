@@ -51,9 +51,14 @@
 		var editor = monaco.editor.create(document.getElementById('input'), {
 			value: [
 				''
-			].join('\n')
+			].join('\n'),
 			// ,
-			// language: 'php'
+			scrollBeyondLastLine: false,
+			renderWhitespace: "all",
+			insertSpaces: false,
+			minimap: {
+				showSlider: "always"
+			},
 		});
 
 		nodeRequire('./js/editor.js').init(editor);
