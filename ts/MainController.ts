@@ -13,7 +13,12 @@ export class MainController {
 	) {
 		editor.onDidChangeModelContent((e) => {
 			clearTimeout(this.timeout);
-			this.timeout = window.setTimeout(this.doExec.bind(this), 700);
+			this.container.classList.toggle("outofsync", true);
+
+			this.timeout = window.setTimeout(()=>{
+				this.container.classList.toggle("outofsync", false);
+				this.doExec();
+			}, 700);
 		});
 
 		window.addEventListener('resize', () => {
@@ -33,13 +38,11 @@ export class MainController {
 		this.container.classList.toggle("noerror", stderr == "");
 
 		if (result.status > 0) {
-			this.stdOut.style.background = '#fee';
-			this.stdErr.style.background = '#fee';
+			this.container.classList.toggle("error", true);
 
 			document.title = `Standard Otter: Exit Code: ${result.status}`;
 		} else {
-			this.stdOut.style.background = '';
-			this.stdErr.style.background = '';
+			this.container.classList.toggle("error", false);
 
 			document.title = 'Standard Otter: OK';
 		}
