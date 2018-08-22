@@ -8,14 +8,13 @@
 </head>
 
 <body>
-	<div class="container">
+	<div class="container noerror">
 		<div id="input"></div>
+
 		<textarea id="output" readonly></textarea>
 		<textarea id="error" readonly></textarea>
-		<input id="cmd" list="cmdlist" value="cat" />
-		<datalist id="cmdlist">
-			<option value="php">
-		</datalist>
+
+		<input id="cmd" />
 	</div>
 </body>
 
@@ -51,9 +50,7 @@
 	amdRequire(['vs/editor/editor.main'], function () {
 		var editor = monaco.editor.create(document.getElementById('input'), {
 			value: [
-				'function x() {',
-				'\tconsole.log("Hello world!");',
-				'}'
+				''
 			].join('\n')
 			// ,
 			// language: 'php'
