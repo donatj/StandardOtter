@@ -38,24 +38,36 @@ input {
 }
 
 .container {
+	display: grid;
 	grid-template-rows: 1fr 1fr 2em;
 	grid-template-columns: 50vw 50vw;
 
 	height: 100vh;
 	width: 100vw;
-	display: grid;
 
 
 	> #output, > #error {
 		margin-left: 2px;
 	}
 
-	> #output {
+	> #output {		
 		margin-bottom: 1px;
 	}
 
 	> #error {
 		margin-top: 1px;
+	}
+
+	&.noerror {
+		> #output {
+			grid-row-start: 1;
+			grid-row-end: 3;
+			margin-bottom: 0;
+		}
+	
+		> #error {
+			display: none;
+		}
 	}
 
 	> #input {
