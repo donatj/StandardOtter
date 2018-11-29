@@ -1,4 +1,5 @@
 import child_process = require('child_process');
+import { setupData } from './main';
 
 export class MainController {
 
@@ -6,6 +7,8 @@ export class MainController {
 
 	constructor(
 		public editor: monaco.editor.IStandaloneCodeEditor,
+		public setupData: setupData,
+		
 		private container: HTMLElement,
 		private cmd: HTMLInputElement,
 		private stdOut: HTMLTextAreaElement,

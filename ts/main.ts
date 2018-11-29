@@ -1,10 +1,14 @@
-import { app, BrowserWindow, Menu, MenuItemConstructorOptions } from 'electron';
+import { app, BrowserWindow, Menu, MenuItemConstructorOptions, systemPreferences } from 'electron';
 // import * as fs from 'fs';
 import * as path from 'path';
 import * as url from 'url';
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 // let win: BrowserWindow | null = null;
+
+export interface setupData {
+	darkMode: boolean;
+}
 
 const windows: BrowserWindow[] = [];
 
@@ -56,7 +60,9 @@ function createWindow() {
 
 	win.webContents.on('did-finish-load', () => {
 		if (!win) { return; }
-		win.webContents.send('message', 'Hello second window!');
+		win.webContents.send('setup', {
+			darkMode: systemPreferences.isDarkMode(),
+		} as setupData);
 	});
 
 	// Emitted when the window is closed.
