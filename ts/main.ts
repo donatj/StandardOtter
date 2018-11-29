@@ -6,7 +6,7 @@ import * as url from 'url';
 // be closed automatically when the JavaScript object is garbage collected.
 // let win: BrowserWindow | null = null;
 
-export interface setupData {
+export interface WindowSetupData {
 	darkMode: boolean;
 }
 
@@ -62,7 +62,7 @@ function createWindow() {
 		if (!win) { return; }
 		win.webContents.send('setup', {
 			darkMode: systemPreferences.isDarkMode(),
-		} as setupData);
+		} as WindowSetupData);
 	});
 
 	// Emitted when the window is closed.

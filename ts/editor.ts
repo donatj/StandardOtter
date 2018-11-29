@@ -1,9 +1,10 @@
+import { WindowSetupData } from "./main";
 import { MainController } from "./MainController";
-import { setupData } from "./main";
+// import electron = require('electron');
 
-export function init(editor: monaco.editor.IStandaloneCodeEditor, setupData: setupData) {
+export function init(editor: monaco.editor.IStandaloneCodeEditor, setup: WindowSetupData) {
 	new MainController(
-		editor, setupData,
+		editor, setup,
 		document.querySelector('.container') as HTMLInputElement,
 		document.getElementById('cmd') as HTMLInputElement,
 		document.getElementById('output') as HTMLTextAreaElement,
@@ -20,6 +21,12 @@ export function init(editor: monaco.editor.IStandaloneCodeEditor, setupData: set
 		}
 	}
 
-	applyTheme(setupData.darkMode);
+	applyTheme(setup.darkMode);
 
-};
+	// electron.systemPreferences.subscribeNotification(
+	// 	'AppleInterfaceThemeChangedNotification',
+	// 	function theThemeHasChanged() {
+	// 		applyTheme(electron.systemPreferences.isDarkMode())
+	// 	}
+	// )
+}

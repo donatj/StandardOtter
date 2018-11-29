@@ -1,5 +1,5 @@
 import child_process = require('child_process');
-import { setupData } from './main';
+import { WindowSetupData } from './main';
 
 export class MainController {
 
@@ -7,18 +7,18 @@ export class MainController {
 
 	constructor(
 		public editor: monaco.editor.IStandaloneCodeEditor,
-		public setupData: setupData,
-		
+		public setup: WindowSetupData,
+
 		private container: HTMLElement,
 		private cmd: HTMLInputElement,
 		private stdOut: HTMLTextAreaElement,
-		private stdErr: HTMLTextAreaElement
+		private stdErr: HTMLTextAreaElement,
 	) {
 		editor.onDidChangeModelContent((e) => {
 			clearTimeout(this.timeout);
 			this.container.classList.toggle("outofsync", true);
 
-			this.timeout = window.setTimeout(()=>{
+			this.timeout = window.setTimeout(()=> {
 				this.container.classList.toggle("outofsync", false);
 				this.doExec();
 			}, 700);
