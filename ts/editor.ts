@@ -1,6 +1,16 @@
 import { WindowSetupData } from "./main";
 import { MainController } from "./MainController";
-// import electron = require('electron');
+// const { systemPreferences } = require('electron')
+
+function applyTheme(dark: boolean) {
+	document.body.classList.toggle('theme-dark', dark);
+
+	if (dark) {
+		monaco.editor.setTheme("vs-dark");
+	} else {
+		monaco.editor.setTheme("vs");
+	}
+}
 
 export let mc : MainController|null = null;
 
@@ -13,22 +23,9 @@ export function init(editor: monaco.editor.IStandaloneCodeEditor, setup: WindowS
 		document.getElementById('error') as HTMLTextAreaElement,
 	);
 
-	function applyTheme(dark: boolean) {
-		document.body.classList.toggle('theme-dark', dark);
-
-		if (dark) {
-			monaco.editor.setTheme("vs-dark");
-		} else {
-			monaco.editor.setTheme("vs");
-		}
-	}
-
 	applyTheme(setup.darkMode);
+}
 
-	// electron.systemPreferences.subscribeNotification(
-	// 	'AppleInterfaceThemeChangedNotification',
-	// 	function theThemeHasChanged() {
-	// 		applyTheme(electron.systemPreferences.isDarkMode())
-	// 	}
-	// )
+export function alter(setup: WindowSetupData) {
+	applyTheme(setup.darkMode);
 }

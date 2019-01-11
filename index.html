@@ -31,7 +31,8 @@
 </script>
 
 <script>
-	nodeRequire('electron').ipcRenderer.on('setup', function (event, data) {
+	var electron = nodeRequire('electron');
+	electron.ipcRenderer.on('setup', function (event, data) {
 		// require node modules before loader.js comes in
 		var path = require('path');
 		function uriFromPath(_path) {
@@ -63,6 +64,10 @@
 			});
 
 			nodeRequire('./js/editor.js').init(editor, data);
+		});
+
+		electron.ipcRenderer.on('alter', function (event, data) {
+			nodeRequire('./js/editor.js').alter(data);
 		});
 	});
 </script>

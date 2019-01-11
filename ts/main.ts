@@ -12,6 +12,21 @@ export interface WindowSetupData {
 
 const windows: BrowserWindow[] = [];
 
+systemPreferences.subscribeNotification(
+	'AppleInterfaceThemeChangedNotification',
+	function theThemeHasChanged(ex) {
+		systemPreferences.setAppLevelAppearance(
+			systemPreferences.isDarkMode() ? "dark" : "light",
+		);
+
+		for(let w of windows) {
+			w.webContents.send('alter', {
+				darkMode: systemPreferences.isDarkMode(),
+			} as WindowSetupData);
+		}
+	}
+)
+
 function createWindow() {
 	// Create the browser window.
 	let win: BrowserWindow | null = new BrowserWindow({
@@ -60,6 +75,7 @@ function createWindow() {
 
 	win.webContents.on('did-finish-load', () => {
 		if (!win) { return; }
+
 		win.webContents.send('setup', {
 			darkMode: systemPreferences.isDarkMode(),
 		} as WindowSetupData);
