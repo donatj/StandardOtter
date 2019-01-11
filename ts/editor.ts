@@ -2,8 +2,10 @@ import { WindowSetupData } from "./main";
 import { MainController } from "./MainController";
 // import electron = require('electron');
 
+export let mc : MainController|null = null;
+
 export function init(editor: monaco.editor.IStandaloneCodeEditor, setup: WindowSetupData) {
-	new MainController(
+	mc = new MainController(
 		editor, setup,
 		document.querySelector('.container') as HTMLInputElement,
 		document.getElementById('cmd') as HTMLInputElement,
