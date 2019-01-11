@@ -26,7 +26,7 @@ export class StdoutErrController extends AbstractBaseController {
 
 		if(this.errtextarea.value === "") {
 			this.errtextarea.style.display = 'none';
-		}else{
+		} else {
 			this.errtextarea.style.display = '';
 		}
 	}

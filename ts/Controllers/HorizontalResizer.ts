@@ -1,7 +1,7 @@
 import { AbstractBaseController } from "./AbstractController";
 
 interface ResizerOptions {
-	width: number
+	width: number;
 }
 
 export class ResizeController extends AbstractBaseController {
@@ -10,7 +10,7 @@ export class ResizeController extends AbstractBaseController {
 
 	private options: ResizerOptions = {
 		width: 5,
-	}
+	};
 
 	private mouseupbind: any;
 	private movebind: any;
@@ -33,7 +33,6 @@ export class ResizeController extends AbstractBaseController {
 		right.getContainer().style.gridRow = "1";
 		right.getContainer().style.gridColumn = "3";
 
-
 		this.grabber.addEventListener('mousedown', this.down.bind(this));
 
 		this.mouseupbind = this.up.bind(this);
@@ -41,7 +40,7 @@ export class ResizeController extends AbstractBaseController {
 	}
 
 	private down(e: MouseEvent) {
-		e.preventDefault()
+		e.preventDefault();
 		this.grabber.classList.add("-resizing");
 
 		document.documentElement.style.cursor = 'ew-resize';
@@ -51,9 +50,9 @@ export class ResizeController extends AbstractBaseController {
 	}
 
 	private move(e: MouseEvent) {
-		let rect = this.container.getBoundingClientRect();
+		const rect = this.container.getBoundingClientRect();
 		// console.log();
-		let pos = (e.clientX - rect.left) - (this.options.width / 2);
+		const pos = (e.clientX - rect.left) - (this.options.width / 2);
 		this.container.style.gridTemplateColumns = `${pos}px ${this.options.width}px`;
 	}
 

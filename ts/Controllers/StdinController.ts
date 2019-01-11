@@ -1,5 +1,5 @@
-import { AbstractBaseController } from "./AbstractController";
 import { EventEmitter, Listener } from "../EventEmitter";
+import { AbstractBaseController } from "./AbstractController";
 
 export class StdinController extends AbstractBaseController {
 
@@ -14,17 +14,17 @@ export class StdinController extends AbstractBaseController {
 
 		this.container.appendChild(this.textarea);
 
-		this.textarea.addEventListener("change", this.change.bind(this))
-		this.textarea.addEventListener("keyup", this.change.bind(this))
+		this.textarea.addEventListener("change", this.change.bind(this));
+		this.textarea.addEventListener("keyup", this.change.bind(this));
 
 		this.changeEmitter.add(
 			(e) => {
 				console.log(e);
-			}
+			},
 		);
 	}
 
-	public addChangeListener(listener : Listener<string>){
+	public addChangeListener(listener : Listener<string>) {
 		this.changeEmitter.add(listener);
 	}
 
