@@ -19,13 +19,13 @@ systemPreferences.subscribeNotification(
 			systemPreferences.isDarkMode() ? "dark" : "light",
 		);
 
-		for(let w of windows) {
+		for(const w of windows) {
 			w.webContents.send('alter', {
 				darkMode: systemPreferences.isDarkMode(),
 			} as WindowSetupData);
 		}
-	}
-)
+	},
+);
 
 function createWindow() {
 	// Create the browser window.
