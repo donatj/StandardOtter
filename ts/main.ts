@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, /* shell, */ MenuItemConstructorOptions } from 'electron';
+import { app, BrowserWindow, Menu, /* shell, */ MenuItemConstructorOptions, remote } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 // import * as fs from 'fs';
@@ -51,6 +51,9 @@ function createWindow() {
 			label: "File",
 			submenu: [
 				{ label: "New", accelerator: "CmdOrCtrl+N", click: createWindow },
+				{ label: "Close Window", accelerator: "CmdOrCtrl+W", click: () => {
+					remote.getCurrentWindow().close();
+				} }
 			]
 		}, {
 			label: "Edit",
