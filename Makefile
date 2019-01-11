@@ -1,8 +1,12 @@
 .PHONY: build
-build:
+build: css/screen.css
 	npm install
 	./node_modules/.bin/tsc
-	compass compile
+
+.PHONY: clean
+clean:
+	rm -rf release
+	rm css/*.css
 
 .PHONY: run
 run: build
@@ -10,7 +14,14 @@ run: build
 
 .PHONY: lint
 lint:
+	./node_modules/.bin/tslint -c tslint.json 'ts/**/*.ts'
+
+.PHONY: fix
+fix:
 	./node_modules/.bin/tslint -c tslint.json 'ts/**/*.ts' --fix
+
+css/screen.css: scss/screen.scss
+	compass compile
 
 .PHONY: release
 release: build
