@@ -5,8 +5,7 @@ build: css/screen.css
 
 .PHONY: clean
 clean:
-	rm -rf release
-	rm css/*.css
+	rm -rf js css release
 
 .PHONY: run
 run: build
