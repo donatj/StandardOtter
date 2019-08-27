@@ -1,6 +1,13 @@
 import child_process = require('child_process');
 import { WindowSetupData } from './main';
 
+interface CmdOutput {
+	stdout: string;
+	stderr: string;
+
+	status: number;
+}
+
 export class MainController {
 
 	private timeout = 0;
@@ -18,7 +25,7 @@ export class MainController {
 			clearTimeout(this.timeout);
 			this.container.classList.toggle("outofsync", true);
 
-			this.timeout = window.setTimeout(()=> {
+			this.timeout = window.setTimeout(() => {
 				this.container.classList.toggle("outofsync", false);
 				this.doExec();
 			}, 700);
@@ -29,8 +36,8 @@ export class MainController {
 		});
 	}
 
-	private doExec() {
-		const result = this.execute(this.cmd.value, this.editor.getValue());
+	private async doExec() {
+		const result = await this.execute(this.cmd.value, this.editor.getValue());
 
 		const stdout = (result.stdout || "").toString();
 		const stderr = (result.stderr || "").toString();
@@ -57,16 +64,27 @@ export class MainController {
 		}
 	}
 
-	private execute(cmd: string, input: string) {
+	private async execute(cmd: string, input: string, timeout: number = 5000) {
 		const cmdData = cmd.split(' ').filter((x) => x != '');
 
-		const result = child_process.spawnSync(
-			cmdData.shift() || "cat",
-			cmdData,
-			{ input },
-		);
+		return new Promise<CmdOutput>((resolve, reject) => {
+			const process = child_process.spawn(
+				cmdData.shift() || "cat",
+				cmdData,
+			);
 
-		return result;
+			process.on('exit', (status) => {
+				resolve({
+					stderr: (process.stderr.read() || '').toString(),
+					stdout: (process.stdout.read() || '').toString(),
+
+					status: status !== null ? status : 255,
+				});
+			});
+
+			process.stdin.write(input);
+			process.stdin.end();
+		});
 	}
 
 }
