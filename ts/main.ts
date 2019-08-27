@@ -35,6 +35,10 @@ function createWindow() {
 
 		minHeight: 500,
 		minWidth: 500,
+
+		webPreferences : {
+			nodeIntegration: true,
+		}
 	});
 
 	// and load the index.html of the app.
@@ -55,7 +59,7 @@ function createWindow() {
 				{ role: 'services', submenu: [] },
 				{ type: 'separator' },
 				{ role: 'hide' },
-				{ role: 'hideothers' },
+				{ role: 'hideOthers' },
 				{ role: 'unhide' },
 				{ type: 'separator' },
 				{ role: 'quit' },

@@ -21,13 +21,13 @@
 <script>
 	// Monaco uses a custom amd loader that over-rides node's require.
 	// Keep a reference to node's require so we can restore it after executing the amd loader file.
-	var nodeRequire = global.require;
+	var nodeRequire = GLOBAL.require;
 </script>
 <script src="node_modules/monaco-editor/min/vs/loader.js"></script>
 <script>
 	// Save Monaco's amd require and restore Node's require
-	var amdRequire = global.require;
-	global.require = nodeRequire;
+	var amdRequire = GLOBAL.require;
+	GLOBAL.require = nodeRequire;
 </script>
 
 <script>
