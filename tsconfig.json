@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "ES2017",
+
+        "sourceMap": true,
+        "outDir": "js",
+        "removeComments": true,
+        "strict": true,
+        "noImplicitAny": true, 
+        "strictNullChecks": true,
+        "noImplicitThis": true,
+        "alwaysStrict": true,
+        "noUnusedLocals": true,
+        "noImplicitReturns": true
+    },
+    "include": [
+        "node_modules/@types/**/*",
+        "node_modules/monaco-editor/monaco.d.ts",
+        "ts/**/*"
+    ]
+}
