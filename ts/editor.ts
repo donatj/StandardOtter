@@ -12,7 +12,7 @@ function applyTheme(dark: boolean) {
 	}
 }
 
-export let mc : MainController|null = null;
+export let mc: MainController | null = null;
 
 export function init(editor: monaco.editor.IStandaloneCodeEditor, setup: WindowSetupData) {
 	mc = new MainController(

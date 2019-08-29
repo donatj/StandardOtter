@@ -19,7 +19,7 @@ systemPreferences.subscribeNotification(
 			systemPreferences.isDarkMode() ? "dark" : "light",
 		);
 
-		for(const w of windows) {
+		for (const w of windows) {
 			w.webContents.send('alter', {
 				darkMode: systemPreferences.isDarkMode(),
 			} as WindowSetupData);
@@ -36,9 +36,9 @@ function createWindow() {
 		minHeight: 500,
 		minWidth: 500,
 
-		webPreferences : {
+		webPreferences: {
 			nodeIntegration: true,
-		}
+		},
 	});
 
 	// and load the index.html of the app.
