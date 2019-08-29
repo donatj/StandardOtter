@@ -68,6 +68,11 @@ input {
 	&.error {
 		> #output, > #error {
 			background: #fee;
+			color: black;
+
+			body.theme-dark & {
+				background: #e69;
+			}
 		}
 	}
 
