@@ -67,12 +67,12 @@ export class MainController {
 	private async execute(cmd: string, input: string, timeout: number = 5000) {
 		const cmdData = cmd.split(' ').filter((x) => x != '');
 
-		return new Promise<CmdOutput>((resolve, reject) => {
-			const process = child_process.spawn(
-				cmdData.shift() || "cat",
-				cmdData,
-			);
+		const process = child_process.spawn(
+			cmdData.shift() || "cat",
+			cmdData,
+		);
 
+		return new Promise<CmdOutput>((resolve, reject) => {
 			process.on('exit', (status) => {
 				resolve({
 					stderr: (process.stderr.read() || '').toString(),
