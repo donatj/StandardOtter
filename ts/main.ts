@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, MenuItemConstructorOptions, systemPreferences, nativeTheme } from 'electron';
+import { app, BrowserWindow, Menu, MenuItemConstructorOptions, nativeTheme } from 'electron';
 // import * as fs from 'fs';
 import * as path from 'path';
 import * as url from 'url';
@@ -12,13 +12,9 @@ export interface WindowSetupData {
 
 const windows: BrowserWindow[] = [];
 
-systemPreferences.subscribeNotification(
-	'AppleInterfaceThemeChangedNotification',
-	function theThemeHasChanged(ex) {
-		systemPreferences.setAppLevelAppearance(
-			nativeTheme.shouldUseDarkColors ? "dark" : "light",
-		);
-
+nativeTheme.addListener(
+	'updated',
+	function theThemeHasChanged() {
 		for (const w of windows) {
 			w.webContents.send('alter', {
 				darkMode: nativeTheme.shouldUseDarkColors,
