@@ -69,6 +69,14 @@ function createWindow() {
 			label: "File",
 			submenu: [
 				{ label: 'New', accelerator: "CmdOrCtrl+N", click: () => { createWindow(); } },
+				{ type: 'separator' },
+				{
+				  label: 'Close Window',
+				  accelerator: 'CmdOrCtrl+W',
+				  click: function (item, win) {
+					if (win) win.close()
+				  }
+				},
 			],
 		},
 		{ role: "editMenu" },
