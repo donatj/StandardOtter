@@ -67,11 +67,12 @@ function createWindow() {
 				{ label: 'New', accelerator: "CmdOrCtrl+N", click: () => { createWindow(); } },
 				{ type: 'separator' },
 				{
-				  label: 'Close Window',
-				  accelerator: 'CmdOrCtrl+W',
-				  click: function (item, win) {
-					if (win) win.close()
-				  }
+					label: 'Close Window',
+
+					accelerator: 'CmdOrCtrl+W',
+					click: (item, w) => {
+						if (w) { w.close(); }
+					},
 				},
 			],
 		},
