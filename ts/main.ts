@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, MenuItemConstructorOptions, systemPreferences } from 'electron';
+import { app, BrowserWindow, Menu, MenuItemConstructorOptions, systemPreferences, nativeTheme } from 'electron';
 // import * as fs from 'fs';
 import * as path from 'path';
 import * as url from 'url';
@@ -16,12 +16,12 @@ systemPreferences.subscribeNotification(
 	'AppleInterfaceThemeChangedNotification',
 	function theThemeHasChanged(ex) {
 		systemPreferences.setAppLevelAppearance(
-			systemPreferences.isDarkMode() ? "dark" : "light",
+			nativeTheme.shouldUseDarkColors ? "dark" : "light",
 		);
 
 		for (const w of windows) {
 			w.webContents.send('alter', {
-				darkMode: systemPreferences.isDarkMode(),
+				darkMode: nativeTheme.shouldUseDarkColors,
 			} as WindowSetupData);
 		}
 	},
@@ -50,7 +50,7 @@ function createWindow() {
 
 	const template: MenuItemConstructorOptions[] = [
 		{
-			label: app.getName(),
+			label: app.name,
 			submenu: [
 				{ role: 'about' },
 				{ type: 'separator' },
@@ -81,7 +81,7 @@ function createWindow() {
 		if (!win) { return; }
 
 		win.webContents.send('setup', {
-			darkMode: systemPreferences.isDarkMode(),
+			darkMode: nativeTheme.shouldUseDarkColors,
 		} as WindowSetupData);
 	});
 
