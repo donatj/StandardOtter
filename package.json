@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "electron-packager": "^14.1.1",
-    "tslint": "^5.20.1",
+    "tslint": "^6.1.1",
     "typescript": "^3.7.3"
   }
 }
