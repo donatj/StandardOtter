@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "main": "js/main.js",
   "dependencies": {
-    "@types/node": "^12.12.35",
+    "@types/node": "^15.0.1",
     "monaco-editor": "^0.22.2"
   },
   "devDependencies": {
