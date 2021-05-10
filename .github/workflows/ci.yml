@@ -19,4 +19,4 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - name: Run make release
-    - run: make release
+      run: make release
