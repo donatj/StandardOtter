@@ -25,9 +25,9 @@ export class MainController {
 			clearTimeout(this.timeout);
 			this.container.classList.toggle("outofsync", true);
 
-			this.timeout = window.setTimeout(() => {
+			this.timeout = window.setTimeout(async () => {
+				await this.doExec();
 				this.container.classList.toggle("outofsync", false);
-				this.doExec();
 			}, 700);
 		});
 
@@ -37,27 +37,38 @@ export class MainController {
 	}
 
 	private async doExec() {
-		const result = await this.execute(this.cmd.value, this.editor.getValue());
+		try {
+			const result = await this.execute(this.cmd.value, this.editor.getValue());
 
-		const stdout = (result.stdout || "").toString();
-		const stderr = (result.stderr || "").toString();
+			const stdout = (result.stdout || "").toString();
+			const stderr = (result.stderr || "").toString();
 
+			this.displayResults(
+				stdout,
+				stderr,
+				result.status > 0 ? `Exit Code: ${result.status}` : "OK",
+				result.status > 0
+			);
+		} catch (e) {
+			this.displayResults(
+				'',
+				`standard otter runtime error: ${e.message}`,
+				'Runtime Error',
+				true
+			)
+		}
+	}
+
+	private displayResults(stdout: string, stderr: string, title: string, error: boolean) {
 		this.stdOut.textContent = stdout;
 		this.stdErr.textContent = stderr;
 
 		this.container.classList.toggle("noerror", stderr == "");
+		this.container.classList.toggle("error", error);
 
-		if (result.status > 0) {
-			this.container.classList.toggle("error", true);
+		document.title = `Standard Otter: ${title}`;
 
-			document.title = `Standard Otter: Exit Code: ${result.status}`;
-		} else {
-			this.container.classList.toggle("error", false);
-
-			document.title = 'Standard Otter: OK';
-		}
-
-		if (result.status !== null) {
+		if (!error) {
 			this.cmd.style.background = '';
 		} else {
 			this.cmd.style.background = '#fee';
@@ -73,7 +84,14 @@ export class MainController {
 		);
 
 		return new Promise<CmdOutput>((resolve, reject) => {
+			const to = setTimeout(() => {
+				process.kill();
+				reject(new Error("Timeout"));
+			}, timeout);
+
 			process.on('exit', (status) => {
+				clearTimeout(to);
+
 				resolve({
 					stderr: (process.stderr.read() || '').toString(),
 					stdout: (process.stdout.read() || '').toString(),
