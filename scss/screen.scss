@@ -16,7 +16,7 @@ html, body {
 
 body {
 	background: #ececec;
-	&.theme-dark {
+	@media (prefers-color-scheme: dark) {
 		background: #545454;
 	}
 }
@@ -33,7 +33,7 @@ textarea, input {
 
 	margin: 0;
 
-	body.theme-dark & {
+	@media (prefers-color-scheme: dark) {
 		background: #363636;
 		color: #d6d6d6;
 	}
@@ -70,7 +70,7 @@ input {
 			background: #fee;
 			color: black;
 
-			body.theme-dark & {
+			@media (prefers-color-scheme: dark) {
 				background: #e69;
 			}
 		}
@@ -80,7 +80,7 @@ input {
 		> #output, > #error {
 			background: #fafafa;
 
-			body.theme-dark & {
+			@media (prefers-color-scheme: dark) {
 				color: #797979;
 				background: #222 !important;
 			}

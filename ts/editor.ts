@@ -3,8 +3,6 @@ import { MainController } from "./MainController";
 // const { systemPreferences } = require('electron')
 
 function applyTheme(dark: boolean) {
-	document.body.classList.toggle('theme-dark', dark);
-
 	if (dark) {
 		monaco.editor.setTheme("vs-dark");
 	} else {
