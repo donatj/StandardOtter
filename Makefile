@@ -1,3 +1,5 @@
+VERSION=$(shell < package.json jq -r .version)
+
 .PHONY: build
 build: css/screen.css
 	npm install
@@ -25,4 +27,4 @@ css/screen.css: scss/screen.scss
 .PHONY: release
 release: build
 	./node_modules/.bin/electron-packager . "Standard Otter" --platform=darwin --darwinDarkModeSupport --icon=StandardOtter.icns --overwrite --out=release --arch=x64
-	tar -cvf - "release/Standard Otter-darwin-x64" | gzip > release/standard-otter-darwin-x64.tar.gz
+	tar -cvf - "release/Standard Otter-darwin-x64" | xz -c - > release/standard-otter-darwin-x64.$(VERSION).tar.xz
