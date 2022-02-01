@@ -50,6 +50,10 @@ export class MainController {
 				result.status > 0
 			);
 		} catch (e) {
+			if (!(e instanceof Error)) {
+				throw e;
+			}
+
 			this.displayResults(
 				'',
 				`standard otter runtime error: ${e.message}`,
