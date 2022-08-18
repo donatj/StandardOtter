@@ -4,7 +4,7 @@
   "main": "js/main.js",
   "dependencies": {
     "@types/node": "^17.0.21",
-    "monaco-editor": "^0.31.1",
+    "monaco-editor": "^0.34.0",
     "sass": "^1.54.4"
   },
   "devDependencies": {
