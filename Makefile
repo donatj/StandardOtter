@@ -22,7 +22,7 @@ fix:
 	./node_modules/.bin/tslint -c tslint.json 'ts/**/*.ts' --fix
 
 css/screen.css: scss/screen.scss
-	compass compile
+	npx sass scss/screen.scss:css/screen.css
 
 .PHONY: release
 release: build
