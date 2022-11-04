@@ -2,7 +2,7 @@ VERSION=$(shell < package.json jq -r .version)
 
 .PHONY: build
 build: css/screen.css
-	npm install
+	npm ci
 	./node_modules/.bin/tsc
 
 .PHONY: clean
