@@ -26,5 +26,8 @@ css/screen.css: scss/screen.scss
 
 .PHONY: release
 release: build
+	./node_modules/.bin/electron-packager . "Standard Otter" --platform=darwin --darwinDarkModeSupport --icon=StandardOtter.icns --overwrite --out=release --arch=arm64
+	tar -cvf - "release/Standard Otter-darwin-arm64" | xz -c - > release/standard-otter-darwin-arm64.$(VERSION).tar.xz
+
 	./node_modules/.bin/electron-packager . "Standard Otter" --platform=darwin --darwinDarkModeSupport --icon=StandardOtter.icns --overwrite --out=release --arch=x64
 	tar -cvf - "release/Standard Otter-darwin-x64" | xz -c - > release/standard-otter-darwin-x64.$(VERSION).tar.xz
