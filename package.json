@@ -5,7 +5,7 @@
   "dependencies": {
     "@types/node": "^17.0.21",
     "monaco-editor": "^0.37.1",
-    "sass": "^1.60.0"
+    "sass": "^1.64.2"
   },
   "devDependencies": {
     "electron": "^24.1.3",
