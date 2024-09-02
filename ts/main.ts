@@ -1,4 +1,6 @@
 import { app, BrowserWindow, Menu, MenuItemConstructorOptions, nativeTheme } from 'electron';
+import { getSystemEnvVars } from './env';
+
 // import * as fs from 'fs';
 import * as path from 'path';
 import * as url from 'url';
@@ -8,6 +10,16 @@ import * as url from 'url';
 
 export interface WindowSetupData {
 	darkMode: boolean;
+}
+
+try {
+	const envs = getSystemEnvVars();
+	for (const key in envs) {
+		process.env[key] = envs[key];
+	}
+} catch (e) {
+	console.error('Failed to load system environment variables');
+	console.error(e);
 }
 
 const windows: BrowserWindow[] = [];
