@@ -7,7 +7,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.8.2",
-    "electron": "^33.0.2",
+    "electron": "^35.1.2",
     "electron-packager": "^17.1.2",
     "sass": "^1.80.5",
     "tslint": "^6.1.3",
