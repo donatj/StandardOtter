@@ -9,7 +9,7 @@
     "@types/node": "^20.8.2",
     "electron": "^35.1.2",
     "electron-packager": "^17.1.2",
-    "sass": "^1.87.0",
+    "sass": "^1.89.2",
     "tslint": "^6.1.3",
     "typescript": "^5.8.3"
   }
