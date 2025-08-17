@@ -1,5 +1,5 @@
-import child_process = require('child_process');
-import { WindowSetupData } from './main';
+import * as child_process from 'child_process';
+import type { WindowSetupData } from './main';
 
 interface CmdOutput {
 	stdout: string;
