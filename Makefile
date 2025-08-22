@@ -11,7 +11,7 @@ clean:
 
 .PHONY: run
 run: build
-	npx electron .
+	ELECTRON_ENABLE_LOGGING=1 npx electron .
 
 .PHONY: lint
 lint:
