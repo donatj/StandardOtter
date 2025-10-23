@@ -1,4 +1,4 @@
-import { WindowSetupData } from "./main";
+import type { WindowSetupData } from "./main";
 import { MainController } from "./MainController";
 // const { systemPreferences } = require('electron')
 
